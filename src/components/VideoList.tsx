@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import NewVideo from "./NewVideo";
 import axios from "axios";
 
@@ -14,20 +14,23 @@ type VideoItemProps = {
 
 const VideoList: React.FC = () => {
   const [videos, setVideos] = useState<VideoResponse[]>([]);
-  const [refecth, setRefetch] = useState(true);
+  const [refetch, setRefetch] = useState(true);
+
+  const fetchVideos = useCallback(async () => {
+    try {
+      const res = await axios.get("http://localhost:8080");
+      setVideos(res.data);
+    } catch (error) {
+      console.log(error);
+    }
+  }, []);
 
   useEffect(() => {
-    const fetchVideos = async () => {
-      try {
-        const res = await axios.get("http://localhost:8080");
-        setVideos(res.data);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    if (refecth) fetchVideos();
-    return () => setRefetch(false);
-  }, [refecth]);
+    if (refetch) {
+      fetchVideos();
+      setRefetch(false);
+    }
+  }, [fetchVideos, refetch]);
 
   return (
     <>

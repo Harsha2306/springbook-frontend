@@ -40,19 +40,18 @@ const NewVideo: React.FC<NewVideoProps> = ({ setRefetch }) => {
         postNewVideo();
       }}
     >
-      <p>Name</p>
+      <span>Name</span>
       <input
         onChange={(e) => handleNameChange(e)}
         value={video.name}
         type="text"
       />
-      <p>Description</p>
+      <span>Description</span>
       <input
         onChange={(e) => handleDescChange(e)}
         value={video.description}
         type="text"
       />
-      <br />
       <button type="submit">Add</button>
     </form>
   );
